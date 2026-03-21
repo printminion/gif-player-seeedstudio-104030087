@@ -229,6 +229,18 @@ void setup() {
 
   log_n("SD Card mounted!");
 
+  // Debug: list SD root contents
+  File root = SD.open("/");
+  if (root) {
+    log_n("SD root contents:");
+    File entry = root.openNextFile();
+    while (entry) {
+      log_n("  %s %s", entry.isDirectory() ? "[DIR]" : "[FILE]", entry.name());
+      entry = root.openNextFile();
+    }
+    root.close();
+  }
+
   totalFiles = getGifInventory(folderPath);
 
   if (currentFile >= totalFiles) {
