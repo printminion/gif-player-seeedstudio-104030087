@@ -229,9 +229,6 @@ void setup() {
 
   log_n("SD Card mounted!");
 
-  tft.begin();
-  tft.fillScreen(TFT_BLACK);
-
   totalFiles = getGifInventory(folderPath);
 
   if (currentFile >= totalFiles) {
