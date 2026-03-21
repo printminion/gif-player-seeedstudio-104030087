@@ -88,7 +88,7 @@ int currentGifPlayedTime = 0;
 int currentGifPlayedLoops = 0;
 
 // folder path variable
-const char *folderPath = "/data/";
+const char *folderPath = "/data";
 
 uint16_t* tft_buffer;
 
@@ -277,7 +277,7 @@ void loop() {
   currentFile++;
 
   const char *fileName = GifFiles[currentFile % totalFiles].c_str();
-  const char *fileDir = "/data/";
+  const char *fileDir = "/data/";  // trailing slash needed when building full path
   char *filePath = (char *)malloc(strlen(fileName) + strlen(fileDir) + 1);
   strcpy(filePath, fileDir);
   strcat(filePath, fileName);
