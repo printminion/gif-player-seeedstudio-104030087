@@ -179,7 +179,7 @@ void setup() {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.drawCentreString(PROJECT_NAME, tft.width() / 2, 50, 2);
-  tft.drawCentreString(String("v") + FIRMWARE_VERSION, tft.width() / 2, 80, 4);
+  tft.drawCentreString(FIRMWARE_VERSION, tft.width() / 2, 80, 4);
 
 #ifdef FEATURE_WIFI_PROVISIONING
   {
