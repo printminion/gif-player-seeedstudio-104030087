@@ -1,6 +1,6 @@
 {
   "name": "gif-player-seeedstudio-104030087",
-  "version": "dev-fb8736b",
+  "version": "dev-31f47e0",
   "channel": "dev",
   "builds": [
     {
@@ -8,7 +8,7 @@
       "board": "Seeed XIAO ESP32-S3",
       "parts": [
         {
-          "path": "https://printminion.github.io/gif-player-seeedstudio-104030087/dev/firmware-seeed_xiao_esp32s3-dev-fb8736b.bin",
+          "path": "https://printminion.github.io/gif-player-seeedstudio-104030087/dev/firmware-seeed_xiao_esp32s3-dev-31f47e0.bin",
           "offset": 0
         }
       ]
