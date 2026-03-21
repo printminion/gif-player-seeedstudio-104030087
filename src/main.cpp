@@ -16,7 +16,9 @@
 
 // ── Template feature forward declarations ─────────────────
 #ifdef FEATURE_WIFI_PROVISIONING
-void setupWifi();
+#include <WiFi.h>
+bool setupWifi();
+String wifiGetApName();
 #endif
 #ifdef FEATURE_OTA
 void setupOTA();
@@ -163,18 +165,71 @@ void setup() {
 #endif
 
   pinMode(LED_PIN, OUTPUT);
-  blinkLed(3);  // startup indication
+  blinkLed(3);
+
+  // ── Display + touch init (needed for boot screen) ────────
+  screen_rotation = 3;
+  xiao_disp_init();
+  pinMode(TOUCH_INT, INPUT_PULLUP);
+  Wire.begin();
+
+  // ── Boot screen ───────────────────────────────────────────
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  tft.drawCentreString(PROJECT_NAME, tft.width() / 2, 50, 2);
+  tft.drawCentreString(String("v") + FIRMWARE_VERSION, tft.width() / 2, 80, 4);
 
 #ifdef FEATURE_WIFI_PROVISIONING
-  setupWifi();
+  {
+    WiFi.mode(WIFI_STA);
+    bool hasCreds = WiFi.SSID().length() > 0;
+    String apName = wifiGetApName();
+
+    if (!hasCreds) {
+      // No saved credentials — ask user before starting portal
+      tft.drawCentreString("Tap to start WiFi setup", tft.width() / 2, 130, 2);
+      tft.drawCentreString(apName, tft.width() / 2, 155, 1);
+#ifdef WIFI_AP_PASSWORD
+      tft.drawCentreString(String("Pass: ") + WIFI_AP_PASSWORD, tft.width() / 2, 170, 1);
+#else
+      tft.drawCentreString("(open network)", tft.width() / 2, 170, 1);
 #endif
+      bool tapped = false;
+      for (int i = 10; i > 0 && !tapped; i--) {
+        tft.fillRect(90, 195, 60, 20, TFT_BLACK);
+        tft.drawCentreString(String(i) + "s", tft.width() / 2, 198, 2);
+        unsigned long t = millis();
+        while (millis() - t < 1000) {
+          if (chsc6x_is_pressed()) { tapped = true; break; }
+          delay(50);
+        }
+      }
+      if (tapped) {
+        tft.fillScreen(TFT_BLACK);
+        tft.drawCentreString("Connect to AP:", tft.width() / 2, 70, 2);
+        tft.drawCentreString(apName, tft.width() / 2, 100, 1);
+        tft.drawCentreString("Then open:", tft.width() / 2, 130, 2);
+        tft.drawCentreString("192.168.4.1", tft.width() / 2, 155, 2);
+        setupWifi();
+      }
+    } else {
+      // Saved credentials found — reconnect silently
+      tft.drawCentreString("Connecting WiFi...", tft.width() / 2, 145, 2);
+      setupWifi();
+    }
+  }
+#endif // FEATURE_WIFI_PROVISIONING
 
 #ifdef FEATURE_VERSION_CHECK
-  checkAndApplyUpdate();
+  if (WiFi.status() == WL_CONNECTED) {
+    checkAndApplyUpdate();
+  }
 #endif
 
 #ifdef FEATURE_OTA
-  setupOTA();
+  if (WiFi.status() == WL_CONNECTED) {
+    setupOTA();
+  }
 #endif
 
   LOG_STATUS("Setup complete — starting GIF player");
@@ -194,12 +249,7 @@ void setup() {
   log_n("CurrentFileIndex: %u\n", prefCurrentFileIndex);
   currentFile = prefCurrentFileIndex;
 
-  screen_rotation = 3;
-  xiao_disp_init();
-
-  pinMode(TOUCH_INT, INPUT_PULLUP);
-  Wire.begin();
-
+  tft.fillScreen(TFT_BLACK);
   prepareUI();
 
   int attempts = 0;
