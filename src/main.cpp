@@ -20,6 +20,7 @@
 bool setupWifi();
 String wifiGetApName();
 bool wifiHasSavedCredentials();
+void wifiSetApClientCallback(void (*cb)(void));
 #endif
 #ifdef FEATURE_OTA
 void setupOTA();
@@ -210,10 +211,17 @@ void setup() {
       }
       if (tapped) {
         tft.fillScreen(TFT_BLACK);
-        tft.drawCentreString("Connect to AP:", tft.width() / 2, 70, 2);
-        tft.drawCentreString(apName, tft.width() / 2, 100, 1);
-        tft.drawCentreString("Then open:", tft.width() / 2, 130, 2);
-        tft.drawCentreString("192.168.4.1", tft.width() / 2, 155, 2);
+        tft.drawCentreString("Connect to AP:", tft.width() / 2, 60, 2);
+        tft.drawCentreString(apName, tft.width() / 2, 90, 1);
+        tft.drawCentreString("Then open:", tft.width() / 2, 115, 2);
+        tft.drawCentreString("192.168.4.1", tft.width() / 2, 140, 2);
+        wifiSetApClientCallback([]() {
+          tft.fillScreen(TFT_BLACK);
+          tft.drawCentreString("Phone connected!", tft.width() / 2, 80, 2);
+          tft.drawCentreString("Disable mobile data,", tft.width() / 2, 120, 1);
+          tft.drawCentreString("then open browser:", tft.width() / 2, 140, 1);
+          tft.drawCentreString("192.168.4.1", tft.width() / 2, 165, 2);
+        });
         setupWifi();
       }
     } else {
