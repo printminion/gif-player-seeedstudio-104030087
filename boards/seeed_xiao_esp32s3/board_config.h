@@ -11,10 +11,10 @@
 // UART
 #define SERIAL_BAUD       115200
 
-// Feature flags
-#define FEATURE_WIFI_PROVISIONING
-#define FEATURE_OTA
-#define FEATURE_VERSION_CHECK
+// Feature flags — comment out to disable
+// #define FEATURE_WIFI_PROVISIONING
+// #define FEATURE_OTA
+// #define FEATURE_VERSION_CHECK
 
 // ============================================================
 // Peripheral pin map — fill in for your hardware
