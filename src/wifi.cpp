@@ -79,7 +79,7 @@ bool setupWifi() {
 
   wm.setConfigPortalTimeout(kPortalTimeoutSec);
   wm.setConnectTimeout(30);
-  wm.setAPChannel(6);  // channel 6 — most universally scanned by phones
+  wm.setWiFiAPChannel(6);  // channel 6 — most universally scanned by phones
   WiFi.setTxPower(WIFI_POWER_19_5dBm);  // maximum TX power
 
   String apName = computeApName();
