@@ -217,7 +217,7 @@ void setup() {
         tft.drawCentreString("192.168.4.1", tft.width() / 2, 140, 2);
         wifiSetApClientCallback([]() {
           tft.fillScreen(TFT_BLACK);
-          tft.drawCentreString("Phone connected!", tft.width() / 2, 80, 2);
+          tft.drawCentreString("Device connected!", tft.width() / 2, 80, 2);
           tft.drawCentreString("Disable mobile data,", tft.width() / 2, 120, 1);
           tft.drawCentreString("then open browser:", tft.width() / 2, 140, 1);
           tft.drawCentreString("192.168.4.1", tft.width() / 2, 165, 2);
