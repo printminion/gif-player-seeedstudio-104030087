@@ -194,6 +194,10 @@ void setup() {
 #else
       tft.drawCentreString("(open network)", tft.width() / 2, 170, 1);
 #endif
+      // Let touch IC settle and drain any startup transient on INT pin
+      delay(500);
+      while (chsc6x_is_pressed()) delay(50);
+
       bool tapped = false;
       for (int i = 10; i > 0 && !tapped; i--) {
         tft.fillRect(90, 195, 60, 20, TFT_BLACK);
