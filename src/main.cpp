@@ -19,6 +19,7 @@
 #include <WiFi.h>
 bool setupWifi();
 String wifiGetApName();
+bool wifiHasSavedCredentials();
 #endif
 #ifdef FEATURE_OTA
 void setupOTA();
@@ -181,8 +182,7 @@ void setup() {
 
 #ifdef FEATURE_WIFI_PROVISIONING
   {
-    WiFi.mode(WIFI_STA);
-    bool hasCreds = WiFi.SSID().length() > 0;
+    bool hasCreds = wifiHasSavedCredentials();
     String apName = wifiGetApName();
 
     if (!hasCreds) {
