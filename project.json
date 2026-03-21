@@ -1,33 +1,24 @@
 {
   "$schema": "./schemas/project.schema.json",
   "project": {
-    "name": "esp32-webflash-template",
-    "description": "Multi-board ESP32 firmware template with browser-based web installer"
+    "name": "gif-player-seeedstudio-104030087",
+    "description": "Animated GIF player for Seeed Studio XIAO ESP32-S3 with 1.28\" round touch display (SKU 104030087)"
   },
   "installer": {
-    "title": "ESP32 Web Flasher",
-    "h1": "ESP32 Webflash Template",
-    "subtitle": "Select your board, connect via USB and flash directly from your browser — no software required.",
-    "baseUrl": "https://printminion.github.io/esp32-webflash-template",
-    "githubUrl": "https://github.com/printminion/esp32-webflash-template",
+    "title": "XIAO Round GIF Player",
+    "h1": "XIAO Round GIF Player",
+    "subtitle": "Flash the GIF player firmware to your Seeed XIAO ESP32-S3 with round touch display — no software required.",
+    "baseUrl": "https://printminion.github.io/gif-player-seeedstudio-104030087",
+    "githubUrl": "https://github.com/printminion/gif-player-seeedstudio-104030087",
     "badgeText": "Web Installer"
   },
-  "lib_deps": [],
+  "lib_deps": [
+    "https://github.com/Seeed-Projects/SeeedStudio_TFT_eSPI",
+    "https://github.com/Seeed-Projects/SeeedStudio_lvgl",
+    "https://github.com/Seeed-Studio/Seeed_Arduino_RoundDisplay",
+    "bitbank2/AnimatedGIF @ ^2.1.1"
+  ],
   "boards": [
-    {
-      "id": "seeed_xiao_esp32c3",
-      "name": "Seeed XIAO ESP32-C3",
-      "chip": "esp32c3",
-      "chipFamily": "ESP32-C3",
-      "bootloaderOffset": "0x0",
-      "platform": "espressif32",
-      "platformioBoard": "seeed_xiao_esp32c3",
-      "buildFlag": "BOARD_SEEED_XIAO_ESP32C3",
-      "partitionsFile": null,
-      "requiresUv": false,
-      "icon": "🟢",
-      "meta": "ESP32-C3 · RISC-V · 4MB Flash"
-    },
     {
       "id": "seeed_xiao_esp32s3",
       "name": "Seeed XIAO ESP32-S3",
@@ -40,35 +31,7 @@
       "partitionsFile": "partitions_esp32s3_8mb.csv",
       "requiresUv": false,
       "icon": "🔵",
-      "meta": "ESP32-S3 · Xtensa · 8MB Flash · Camera ready"
-    },
-    {
-      "id": "seeed_xiao_esp32c6",
-      "name": "Seeed XIAO ESP32-C6",
-      "chip": "esp32c6",
-      "chipFamily": "ESP32-C6",
-      "bootloaderOffset": "0x0",
-      "platform": "https://github.com/pioarduino/platform-espressif32/releases/download/55.03.37/platform-espressif32.zip",
-      "platformioBoard": "seeed_xiao_esp32c6",
-      "buildFlag": "BOARD_SEEED_XIAO_ESP32C6",
-      "partitionsFile": "min_spiffs.csv",
-      "requiresUv": true,
-      "icon": "🟡",
-      "meta": "ESP32-C6 · RISC-V · WiFi 6 · Zigbee · Thread"
-    },
-    {
-      "id": "generic_esp32",
-      "name": "Generic ESP32",
-      "chip": "esp32",
-      "chipFamily": "ESP32",
-      "bootloaderOffset": "0x1000",
-      "platform": "espressif32",
-      "platformioBoard": "esp32dev",
-      "buildFlag": "BOARD_GENERIC_ESP32",
-      "partitionsFile": null,
-      "requiresUv": false,
-      "icon": "⚪",
-      "meta": "ESP32 · Xtensa Dual-core · DevKitC"
+      "meta": "ESP32-S3 · 8MB Flash · Round Touch Display"
     }
   ],
   "branding": [
