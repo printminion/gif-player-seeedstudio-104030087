@@ -229,18 +229,6 @@ void setup() {
 
   log_n("SD Card mounted!");
 
-  // Debug: list SD root contents
-  File root = SD.open("/");
-  if (root) {
-    log_n("SD root contents:");
-    File entry = root.openNextFile();
-    while (entry) {
-      log_n("  %s %s", entry.isDirectory() ? "[DIR]" : "[FILE]", entry.name());
-      entry = root.openNextFile();
-    }
-    root.close();
-  }
-
   totalFiles = getGifInventory(folderPath);
 
   if (currentFile >= totalFiles) {
@@ -277,7 +265,7 @@ void loop() {
   currentFile++;
 
   const char *fileName = GifFiles[currentFile % totalFiles].c_str();
-  const char *fileDir = "/data/";  // trailing slash needed when building full path
+  const char *fileDir = "/data/";
   char *filePath = (char *)malloc(strlen(fileName) + strlen(fileDir) + 1);
   strcpy(filePath, fileDir);
   strcat(filePath, fileName);
