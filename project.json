@@ -8,6 +8,9 @@
     "title": "XIAO Round GIF Player",
     "h1": "XIAO Round GIF Player",
     "subtitle": "Flash the GIF player firmware to your Seeed XIAO ESP32-S3 with round touch display — no software required.",
+    "description": "Animated GIF player for the Seeed Studio XIAO ESP32-S3 with 1.28\" round touch display. Copy GIFs to the SD card and they play automatically.",
+    "youtubeUrl": "",
+    "howToUrl": "",
     "baseUrl": "https://printminion.github.io/gif-player-seeedstudio-104030087",
     "githubUrl": "https://github.com/printminion/gif-player-seeedstudio-104030087",
     "badgeText": "Web Installer"
@@ -30,7 +33,35 @@
       "partitionsFile": "partitions_esp32s3_8mb.csv",
       "requiresUv": false,
       "icon": "🔵",
-      "meta": "ESP32-S3 · 8MB Flash · Round Touch Display"
+      "meta": "ESP32-S3 · 8MB Flash · Round Touch Display",
+      "sku": "113991114",
+      "url": "https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html",
+      "image": "assets/boards/seeed_xiao_esp32s3.jpg"
+    }
+  ],
+  "firmwareVariants": [
+    {
+      "id": "nowifi",
+      "label": "No WiFi",
+      "description": "Minimal build — GIF playback only, no WiFi or OTA",
+      "buildFlags": ["-D VARIANT_NO_WIFI"],
+      "requiresWifi": false
+    },
+    {
+      "id": "wifi",
+      "label": "WiFi",
+      "description": "GIF playback + WiFi provisioning and OTA updates",
+      "buildFlags": [],
+      "requiresWifi": true
+    }
+  ],
+  "components": [
+    {
+      "name": "Seeed Studio Round Display for XIAO",
+      "description": "1.28\" round touch display with SD card slot — GC9A01 driver, CST816S touch IC",
+      "sku": "104030087",
+      "url": "https://www.seeedstudio.com/Seeed-Studio-Round-Display-for-XIAO-p-5638.html",
+      "image": "assets/components/round_display_xiao.jpg"
     }
   ],
   "branding": [
