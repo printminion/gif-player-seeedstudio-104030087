@@ -13,20 +13,17 @@ This file provides guidance to AI agents (Claude Code, Copilot, Cursor, etc.) wh
 ## Build Commands
 
 ```bash
-# Build all environments (release envs require a WiFi AP flag — see wifi.cpp)
-PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run
+# Build the default (no-wifi) variant — no WiFi AP flag required
+pio run -e seeed_xiao_esp32s3
 
-# Build a single release environment
-PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run -e seeed_xiao_esp32c3
-PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run -e seeed_xiao_esp32s3
-PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run -e seeed_xiao_esp32c6
-PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run -e generic_esp32
+# Build the wifi variant
+PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run -e seeed_xiao_esp32s3-wifi
 
 # Build debug variant (no WiFi AP flag required — open AP allowed in debug builds)
-pio run -e seeed_xiao_esp32c3-debug
+pio run -e seeed_xiao_esp32s3-debug
 
 # Flash to connected device
-PLATFORMIO_BUILD_FLAGS="-D WIFI_AP_OPEN=1" pio run -e seeed_xiao_esp32c3 -t upload
+pio run -e seeed_xiao_esp32s3 -t upload
 
 # Monitor serial output
 pio device monitor -b 115200
@@ -47,7 +44,34 @@ All PlatformIO `lib_deps` are declared in `project.json` — **never edit `platf
 - `extra_lib_deps` (per-board array) — merged into that board's env only.
 
 ### Feature flags
-`board_config.h` defines `FEATURE_WIFI_PROVISIONING`, `FEATURE_OTA`, and `FEATURE_VERSION_CHECK`. These gate entire subsystems in `main.cpp`. All currently-supported boards enable all three.
+`board_config.h` defines `FEATURE_WIFI_PROVISIONING`, `FEATURE_OTA`, and `FEATURE_VERSION_CHECK`. These gate entire subsystems in `main.cpp`. They are controlled via the `firmwareVariants` system — the `VARIANT_NO_WIFI` build flag (injected by the no-wifi variant) causes `board_config.h` to omit all three at compile time.
+
+### Firmware variants architecture
+
+`project.json → firmwareVariants[]` is the single source of truth for all variant behaviour:
+
+- **PlatformIO envs** (`scripts/generate_platformio.py`) — first entry (`_is_default = true`) gets no suffix (`seeed_xiao_esp32s3`); subsequent entries get `-{id}` suffix (`seeed_xiao_esp32s3-wifi`).
+- **CI build matrix** (`dev.yml`, `release.yml`) — `jq` uses `.firmwareVariants | to_entries[]` for index-aware iteration; key 0 → no suffix.
+- **Manifest** (`manifest.json`) — each build entry carries a `variant` field matching the variant `id`.
+- **Web installer toggle** — shown when `VARIANTS_CONFIG` has more than one entry; first variant is the initial selection.
+- `requiresWifi: false` on a variant causes `scripts/set_wifi_ap_flags.py` to skip the WiFi AP password policy check for that variant's environments.
+
+### Web installer config system
+
+`docs/boards_config.js` is **auto-generated** by `scripts/generate_boards_config.py` — never edit by hand. Run it after any `project.json` change:
+
+```bash
+python scripts/generate_boards_config.py
+```
+
+It emits four `window.*` globals consumed by `docs/index.html`:
+
+- `BOARDS_CONFIG` — board list with `id`, `name`, `chipFamily`, `icon`, `sku`, `url`, `image`
+- `VARIANTS_CONFIG` — variant list with `id`, `label`, `description`
+- `COMPONENTS_CONFIG` — BOM components array (omitted when `components[]` is empty)
+- `PROJECT_CONFIG` — installer metadata: `title`, `h1`, `subtitle`, `description`, `youtubeUrl`, `howToUrl`, `baseUrl`, `githubUrl`
+
+Board `image` fields accept a relative path from `docs/` (e.g. `assets/boards/my-board.png`) or an absolute `https://` URL. Locally cached thumbnails live in `docs/assets/boards/`. Component images go in `docs/assets/components/`.
 
 ### Logging system
 `include/logger.h` provides `LOG()`, `LOGF()`, `LOG_RAW()` macros. When `DEBUG_BUILD` is not defined they compile to nothing; when `DEBUG_BUILD` is defined they emit via Serial. Never use `Serial.print` directly.
@@ -57,9 +81,6 @@ All PlatformIO `lib_deps` are declared in `project.json` — **never edit `platf
 - **Dev channel**: triggered by push to `dev` → firmware deployed to `docs/dev/`, version string is `dev-<SHORT_SHA>`
 
 The web installer at `docs/index.html` switches between channels dynamically. `docs/version/{board-id}.json` (one file per board) is fetched by the firmware's `version_check.cpp` at runtime for auto-update; `docs/version.json` is a legacy boards-object kept for backward compatibility.
-
-### ESP32-C6 platform difference
-`seeed_xiao_esp32c6` uses the [pioarduino fork](https://github.com/pioarduino/platform-espressif32) instead of the official `espressif32` platform because the official platform lacks Arduino framework support for C6. This also requires `uv` to be pre-installed in CI (`pip install uv`). All other boards use `platform = espressif32`.
 
 ### esp_https_ota API compatibility
 `src/version_check.cpp` uses two `ESP_IDF_VERSION` guards:
