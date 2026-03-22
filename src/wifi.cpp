@@ -70,7 +70,9 @@ String wifiGetApName() {
 // Backed by Preferences — immune to stale NVS entries from other sketches.
 bool wifiHasSavedCredentials() {
   Preferences prefs;
-  prefs.begin("wifi-state", true);
+  if (!prefs.begin("wifi-state", true)) {
+    return false;  // namespace not yet created — never configured
+  }
   bool configured = prefs.getBool("configured", false);
   prefs.end();
   return configured;
