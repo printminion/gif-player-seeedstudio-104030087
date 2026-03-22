@@ -1,7 +1,16 @@
 // AUTO-GENERATED — do not edit by hand.
 // Re-generate with: python scripts/generate_boards_config.py
 window.BOARDS_CONFIG = [
-  { id: "seeed_xiao_esp32s3", name: "Seeed XIAO ESP32-S3", icon: "🔵", meta: "ESP32-S3 · 8MB Flash · Round Touch Display", chipFamily: "ESP32-S3" }
+  { id: "seeed_xiao_esp32s3", name: "Seeed XIAO ESP32-S3", icon: "🔵", meta: "ESP32-S3 · 8MB Flash · Round Touch Display", chipFamily: "ESP32-S3", sku: "113991114", url: "https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html", image: "assets/boards/seeed_xiao_esp32s3.jpg" }
+];
+
+window.VARIANTS_CONFIG = [
+  { id: "nowifi", label: "No WiFi", description: "Minimal build — GIF playback only, no WiFi or OTA" },
+  { id: "wifi", label: "WiFi", description: "GIF playback + WiFi provisioning and OTA updates" }
+];
+
+window.COMPONENTS_CONFIG = [
+  { name: "Seeed Studio Round Display for XIAO", description: "1.28\" round touch display with SD card slot — GC9A01 driver, CST816S touch IC", sku: "104030087", url: "https://www.seeedstudio.com/Seeed-Studio-Round-Display-for-XIAO-p-5638.html", image: "assets/components/round_display_xiao.jpg" }
 ];
 
 window.BRANDING_CONFIG = [
@@ -14,6 +23,9 @@ window.PROJECT_CONFIG = {
   title:              "XIAO Round GIF Player",
   h1:                 "XIAO Round GIF Player",
   subtitle:           "Flash the GIF player firmware to your Seeed XIAO ESP32-S3 with round touch display — no software required.",
+  description:        "Animated GIF player for the Seeed Studio XIAO ESP32-S3 with 1.28\" round touch display. Copy GIFs to the SD card and they play automatically.",
+  youtubeUrl:         null,
+  howToUrl:           null,
   baseUrl:            "https://printminion.github.io/gif-player-seeedstudio-104030087",
   githubUrl:          "https://github.com/printminion/gif-player-seeedstudio-104030087",
   badgeText:          "Web Installer",
