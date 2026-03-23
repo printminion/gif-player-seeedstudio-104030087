@@ -1,4 +1,4 @@
-# GIF Player for Round Display for Seeed Studio XIAO 104030087
+# GIF Player for Round Display for Seeed Studio XIAO 104030087 by @printminion
 
 Animated GIF player for the [Seeed Studio XIAO ESP32-S3](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html)
 with [1.28" Round Display (SKU 104030087)](https://www.seeedstudio.com/Seeed-Studio-Round-Display-for-XIAO-p-5638.html).
