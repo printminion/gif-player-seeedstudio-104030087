@@ -612,7 +612,9 @@ void showUIDemo(bool showControls)
     // First-run: green "ok" button centred between the nav buttons
     tft.drawRoundRect(85, 100, 70, 28, 5, TFT_GREEN);
     tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    tft.setTextSize(1);
     tft.drawCentreString("ok", tft.width() / 2, 106, 2);
+    tft.setTextSize(2);
     tft.setTextColor(TFT_WHITE, TFT_BLACK);
   } else if (showControls) {
     tft.drawString("controls", 75, 40);
