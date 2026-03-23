@@ -20,8 +20,8 @@ window.BRANDING_CONFIG = [
 ];
 
 window.PROJECT_CONFIG = {
-  title:              "GIF Player for Round Display for Seeed Studio XIAO 104030087",
-  h1:                 "GIF Player for Round Display for Seeed Studio XIAO 104030087",
+  title:              "GIF Player for Round Display for Seeed Studio XIAO 104030087 by @printminion",
+  h1:                 "GIF Player for Round Display for Seeed Studio XIAO 104030087 by @printminion",
   subtitle:           "Flash the GIF player firmware to your Seeed XIAO ESP32-S3 with round touch display — no software required.",
   description:        "Animated GIF player for the Seeed Studio XIAO ESP32-S3 with 1.28\" round touch display. Copy GIFs to the SD card and they play automatically.",
   youtubeUrl:         null,
