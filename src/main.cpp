@@ -210,18 +210,14 @@ void setup() {
         }
       }
       if (tapped) {
+        // Show all instructions before setupWifi() — no TFT work inside event callbacks
+        // (event callback SPI ops block wm.process()/server.handleClient() → ERR_CONNECTION_TIMED_OUT)
         tft.fillScreen(TFT_BLACK);
-        tft.drawCentreString("Connect to AP:", tft.width() / 2, 60, 2);
-        tft.drawCentreString(apName, tft.width() / 2, 90, 1);
-        tft.drawCentreString("Then open:", tft.width() / 2, 115, 2);
-        tft.drawCentreString("192.168.4.1", tft.width() / 2, 140, 2);
-        wifiSetApClientCallback([]() {
-          tft.fillScreen(TFT_BLACK);
-          tft.drawCentreString("Device connected!", tft.width() / 2, 80, 2);
-          tft.drawCentreString("Disable mobile data,", tft.width() / 2, 120, 1);
-          tft.drawCentreString("then open browser:", tft.width() / 2, 140, 1);
-          tft.drawCentreString("192.168.4.1", tft.width() / 2, 165, 2);
-        });
+        tft.drawCentreString("1. Join WiFi:", tft.width() / 2, 28, 2);
+        tft.drawCentreString(apName, tft.width() / 2, 55, 1);
+        tft.drawCentreString("2. Disable mobile data", tft.width() / 2, 85, 1);
+        tft.drawCentreString("3. Open browser:", tft.width() / 2, 110, 2);
+        tft.drawCentreString("192.168.4.1", tft.width() / 2, 142, 4);
         setupWifi();
       }
     } else {
