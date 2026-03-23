@@ -247,19 +247,19 @@ void setup() {
   LOG_STATUS("Setup complete — starting GIF player");
 
   // ── GIF player setup ────────────────────────────────────
-  preferences.begin("gif-player", false);
+  bool prefsOk = preferences.begin("gif-player", false);
+  LOGF_STATUS("[prefs] begin: %s", prefsOk ? "OK" : "FAILED");
 
   prefMode = preferences.getUInt("mode", PREF_MODE_STANDBY);
-  log_n("Current Mode: %u\n", prefMode);
   if (prefMode != PREF_MODE_STANDBY && prefMode != PREF_MODE_PLAYER) {
     prefMode = PREF_MODE_STANDBY;
-    log_n("Current Mode: standby (fallback)\n");
   }
-
   prefCurrentFileIndex = preferences.getUInt("file_index", 0);
-  isUiDemoSeen = preferences.getBool("intro_seen", false);
-  log_n("CurrentFileIndex: %u\n", prefCurrentFileIndex);
-  currentFile = prefCurrentFileIndex;
+  isUiDemoSeen         = preferences.getBool("intro_seen", false);
+  currentFile          = prefCurrentFileIndex;
+
+  LOGF_STATUS("[prefs] mode=%u  file_index=%u  intro_seen=%s",
+              prefMode, prefCurrentFileIndex, isUiDemoSeen ? "true" : "false");
 
   tft.fillScreen(TFT_BLACK);
   prepareUI();
@@ -315,7 +315,8 @@ void loop() {
     }
     if (chsc6x_is_pressed()) {
       isUiDemoSeen = true;
-      preferences.putBool("intro_seen", isUiDemoSeen);
+      bool saved = preferences.putBool("intro_seen", isUiDemoSeen);
+      LOGF_STATUS("[prefs] intro_seen saved: %s", saved ? "OK" : "FAILED");
     }
     delay(60);
     return;
