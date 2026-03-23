@@ -609,9 +609,11 @@ void showUIDemo(bool showControls)
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
 
   if (!isUiDemoSeen) {
-    // First-run: draw "OK" button so user knows to tap the screen
-    tft.drawRoundRect(85, 44, 70, 28, 5, TFT_WHITE);
-    tft.drawCentreString("OK", tft.width() / 2, 50, 2);
+    // First-run: green "ok" button centred between the nav buttons
+    tft.drawRoundRect(85, 100, 70, 28, 5, TFT_GREEN);
+    tft.setTextColor(TFT_GREEN, TFT_BLACK);
+    tft.drawCentreString("ok", tft.width() / 2, 106, 2);
+    tft.setTextColor(TFT_WHITE, TFT_BLACK);
   } else if (showControls) {
     tft.drawString("controls", 75, 40);
   }
