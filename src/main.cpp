@@ -217,7 +217,7 @@ void setup() {
         tft.drawCentreString(apName, tft.width() / 2, 55, 1);
         tft.drawCentreString("2. Disable mobile data", tft.width() / 2, 85, 1);
         tft.drawCentreString("3. Open browser:", tft.width() / 2, 110, 2);
-        tft.drawCentreString("192.168.4.1", tft.width() / 2, 142, 4);
+        tft.drawCentreString("192.168.99.1", tft.width() / 2, 142, 4);
         setupWifi();
       }
     } else {
