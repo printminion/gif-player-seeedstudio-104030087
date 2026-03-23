@@ -98,18 +98,23 @@ bool setupWifi() {
   // Uncomment to reset saved credentials during development:
   // wm.resetSettings();
 
-  wm.setConfigPortalTimeout(kPortalTimeoutSec);
-  wm.setConnectTimeout(30);
-  wm.setWiFiAPChannel(6);  // channel 6 — most universally scanned by phones
+  // Disable WiFi modem power saving — prevents the modem going dormant between
+  // WebServer's header write and body write, which causes TCP RST before body arrives.
+  WiFi.setSleep(false);
+
   // Use 192.168.99.x — avoids conflict with common home-router subnets (192.168.4.x)
-  // Use wm.setAPStaticIPConfig() rather than WiFi.softAPConfig() so WiFiManager owns
-  // the WiFi stack initialisation; calling softAPConfig() first can leave the TCP stack
-  // in an inconsistent state causing body writes to fail (RST after headers).
-  wm.setAPStaticIPConfig(
+  // WiFi.softAPConfig() must be called before wm.autoConnect() so the AP interface
+  // is configured before the WiFi stack starts (wm.setAPStaticIPConfig() alone was
+  // found to prevent the AP from starting on this hardware).
+  WiFi.softAPConfig(
       IPAddress(192, 168, 99, 1),
       IPAddress(192, 168, 99, 1),
       IPAddress(255, 255, 255, 0)
   );
+
+  wm.setConfigPortalTimeout(kPortalTimeoutSec);
+  wm.setConnectTimeout(30);
+  wm.setWiFiAPChannel(6);  // channel 6 — most universally scanned by phones
   WiFi.setTxPower(WIFI_POWER_19_5dBm);  // maximum TX power
 
   WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) {
