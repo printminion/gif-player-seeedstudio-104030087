@@ -98,6 +98,13 @@ bool setupWifi() {
   // Uncomment to reset saved credentials during development:
   // wm.resetSettings();
 
+  // Use 192.168.99.x — avoids conflict with common home-router subnets (192.168.4.x)
+  WiFi.softAPConfig(
+      IPAddress(192, 168, 99, 1),
+      IPAddress(192, 168, 99, 1),
+      IPAddress(255, 255, 255, 0)
+  );
+
   wm.setConfigPortalTimeout(kPortalTimeoutSec);
   wm.setConnectTimeout(30);
   wm.setWiFiAPChannel(6);  // channel 6 — most universally scanned by phones
@@ -115,7 +122,7 @@ bool setupWifi() {
 
   LOG_STATUS("-- WiFi Setup ------------------------------------------");
   LOGF_STATUS("Connect to WiFi AP : %s", apName.c_str());
-  LOG_STATUS("Then open          : http://192.168.4.1");
+  LOG_STATUS("Then open          : http://192.168.99.1");
   LOGF_STATUS("Portal closes in   : %d min", kPortalTimeoutSec / 60);
 #ifndef WIFI_AP_PASSWORD
   LOG_STATUS("WARNING: provisioning AP has no password — not for production.");
