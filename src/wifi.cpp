@@ -98,10 +98,6 @@ bool setupWifi() {
   // Uncomment to reset saved credentials during development:
   // wm.resetSettings();
 
-  // Disable WiFi modem power saving — prevents the modem going dormant between
-  // WebServer's header write and body write, which causes TCP RST before body arrives.
-  WiFi.setSleep(false);
-
   // Use 192.168.99.x — avoids conflict with common home-router subnets (192.168.4.x)
   // WiFi.softAPConfig() must be called before wm.autoConnect() so the AP interface
   // is configured before the WiFi stack starts (wm.setAPStaticIPConfig() alone was
@@ -115,7 +111,22 @@ bool setupWifi() {
   wm.setConfigPortalTimeout(kPortalTimeoutSec);
   wm.setConnectTimeout(30);
   wm.setWiFiAPChannel(6);  // channel 6 — most universally scanned by phones
-  WiFi.setTxPower(WIFI_POWER_19_5dBm);  // maximum TX power
+
+  // Disable captive-portal DNS redirect.
+  // WiFiManager's DNS server redirects every domain lookup to 192.168.99.1.
+  // On Windows, NCSI probes (msftconnecttest.com etc.) get redirected and hit the
+  // WebServer mid-transfer. The WebServer is single-client: it drops the in-progress
+  // portal response to serve the NCSI request, stalling the HTML body.
+  // Without DNS redirect, NCSI probes time out at DNS level and never reach the server.
+  // Users navigate manually to http://192.168.99.1 — the instruction screen shows this.
+  wm.setCaptivePortalEnable(false);
+
+  // Apply sleep-disable and TX power after the AP starts (esp_wifi_set_ps /
+  // esp_wifi_set_max_tx_power require the WiFi stack to be running).
+  WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) {
+    WiFi.setSleep(false);
+    WiFi.setTxPower(WIFI_POWER_19_5dBm);
+  }, ARDUINO_EVENT_WIFI_AP_START);
 
   WiFi.onEvent([](WiFiEvent_t event, WiFiEventInfo_t info) {
     LOGF_STATUS("WiFi: client connected to AP, MAC=%02x:%02x:%02x:%02x:%02x:%02x",
