@@ -603,7 +603,16 @@ void showUIDemo(bool showControls)
   }
   tft.drawString("mode", 95, marginTop + 10);
 
-  if (showControls) {
+  // Firmware version — always visible, subdued colour
+  tft.setTextColor(TFT_DARKGREY, TFT_BLACK);
+  tft.drawCentreString(FIRMWARE_VERSION, tft.width() / 2, 18, 1);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+
+  if (!isUiDemoSeen) {
+    // First-run: draw "OK" button so user knows to tap the screen
+    tft.drawRoundRect(85, 44, 70, 28, 5, TFT_WHITE);
+    tft.drawCentreString("OK", tft.width() / 2, 50, 2);
+  } else if (showControls) {
     tft.drawString("controls", 75, 40);
   }
 }
