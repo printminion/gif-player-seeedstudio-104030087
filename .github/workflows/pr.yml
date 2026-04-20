@@ -1,0 +1,52 @@
+# ============================================================
+# pr.yml
+# Triggered on pull requests targeting dev or main.
+# Builds all board environments to verify compilation.
+# No deployment — build-only smoke test for PRs.
+# ============================================================
+
+name: PR build check
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  setup:
+    name: Read board matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.read.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Build matrix from project.json
+        id: read
+        run: |
+          matrix=$(jq -c '[
+            .boards[] as $b |
+            ((.firmwareVariants // [{id:"nowifi"}]) | to_entries[]) as $fve |
+            {
+              environment:       (if $fve.key == 0 then $b.id else ($b.id + "-" + $fve.value.id) end),
+              chip:              $b.chip,
+              bootloader_offset: $b.bootloaderOffset,
+              requires_uv:       $b.requiresUv
+            }
+          ]' project.json)
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build firmware
+    needs: setup
+    uses: ./.github/workflows/_build-firmware.yml
+    with:
+      matrix: ${{ needs.setup.outputs.matrix }}
+      version: pr-${{ github.event.pull_request.number }}
+      wifi_strict: false
+      wifi_allow_open_release: ''
+      artifact_retention_days: 1
+    secrets:
+      WIFI_AP_PASSWORD: ${{ secrets.WIFI_AP_PASSWORD }}
+      OTA_USERNAME: ${{ secrets.OTA_USERNAME }}
+      OTA_PASSWORD: ${{ secrets.OTA_PASSWORD }}
