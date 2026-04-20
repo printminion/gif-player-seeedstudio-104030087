@@ -1,17 +1,29 @@
 """
 patch_tft_esp32c5.py — PlatformIO pre-build extra_script
 
-ESP-IDF 5.x changed several GPIO peripheral registers from plain `uint32_t`
-fields to typed C++ structs (e.g. gpio_out_w1tc_reg_t).  TFT_eSPI's generic
-ESP32 processor file (TFT_eSPI_ESP32.h) still uses bare integer assignment:
+TFT_eSPI's generic ESP32 processor files use several IDF3/IDF4 APIs that no
+longer exist on ESP32-C5 (which ships with IDF 5.x).  Three classes of issue:
 
-    GPIO.out_w1tc = (1 << TFT_DC)   // fails on C5: struct ≠ int
+1. GPIO struct-register assignment (TFT_eSPI_ESP32.h)
+   IDF5.x changed GPIO peripheral registers from plain `uint32_t` fields to
+   typed C++ structs.  Bare integer assignment no longer compiles:
+       GPIO.out_w1tc = (1 << TFT_DC)   // error: struct ≠ int
+   Fix: access the underlying value through `.val`:
+       GPIO.out_w1tc.val = (1 << TFT_DC)
 
-The fix is to access the underlying 32-bit value via the `.val` member:
+2. VSPI constant missing (TFT_eSPI_ESP32.h)
+   Classic ESP32 had VSPI (=3) and HSPI (=2) SPI peripheral constants.
+   ESP32-C5 (single SPI bus) does not define VSPI; the correct constant is
+   SPI2_HOST (= 1 in IDF5.x, the only user-accessible SPI peripheral).
+   Fix: replace the default SPI_PORT definition:
+       #define SPI_PORT VSPI   →   #define SPI_PORT SPI2_HOST
 
-    GPIO.out_w1tc.val = (1 << TFT_DC)
+3. SPI data-length register renamed (TFT_eSPI_ESP32.c)
+   SPI_MOSI_DLEN_REG() was renamed to SPI_MS_DLEN_REG() in IDF5.x for newer
+   chips (including C5).  The macro signature is identical; only the name
+   changed.
 
-This script runs as a PlatformIO `pre:` extra_script so it patches the file
+This script runs as a PlatformIO `pre:` extra_script so it patches the files
 inside .pio/libdeps/ before compilation begins.  It is idempotent — already-
 patched files are left unchanged.
 """
@@ -20,18 +32,28 @@ Import("env")  # noqa: F821  (PlatformIO injects this)
 
 import os
 
-_REPLACEMENTS = [
+# Patches applied to TFT_eSPI_ESP32.h
+_H_REPLACEMENTS = [
+    # Fix 1: GPIO struct-register assignment
     ("GPIO.out_w1tc = (", "GPIO.out_w1tc.val = ("),
     ("GPIO.out_w1ts = (", "GPIO.out_w1ts.val = ("),
+    # Fix 2: VSPI constant → SPI2_HOST
+    ("#define SPI_PORT VSPI", "#define SPI_PORT SPI2_HOST"),
+]
+
+# Patches applied to TFT_eSPI_ESP32.c
+_C_REPLACEMENTS = [
+    # Fix 3: SPI data-length register renamed in IDF5.x
+    ("SPI_MOSI_DLEN_REG(", "SPI_MS_DLEN_REG("),
 ]
 
 
-def _patch_file(path: str) -> None:
+def _patch_file(path: str, replacements: list) -> None:
     with open(path, encoding="utf-8") as fh:
         original = fh.read()
 
     patched = original
-    for old, new in _REPLACEMENTS:
+    for old, new in replacements:
         patched = patched.replace(old, new)
 
     if patched == original:
@@ -54,7 +76,9 @@ def _find_and_patch(env_obj) -> None:  # type: ignore[no-untyped-def]
 
     for root, _dirs, files in os.walk(search_root):
         if "TFT_eSPI_ESP32.h" in files:
-            _patch_file(os.path.join(root, "TFT_eSPI_ESP32.h"))
+            _patch_file(os.path.join(root, "TFT_eSPI_ESP32.h"), _H_REPLACEMENTS)
+        if "TFT_eSPI_ESP32.c" in files:
+            _patch_file(os.path.join(root, "TFT_eSPI_ESP32.c"), _C_REPLACEMENTS)
 
 
 _find_and_patch(env)  # noqa: F821
