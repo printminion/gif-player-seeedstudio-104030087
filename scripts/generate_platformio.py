@@ -109,6 +109,12 @@ def render_env(board: dict, debug: bool, installer_base: str = "",
         for dep in extra_lib_deps:
             lines.append(f"    {dep}")
 
+    extra_scripts = board.get("extraScripts", [])
+    if extra_scripts:
+        lines.append("extra_scripts =")
+        for script in extra_scripts:
+            lines.append(f"    {script}")
+
     lines.append("build_flags =")
     lines.append("    ${env.build_flags}")
     lines.append(f"    -D {flag}")

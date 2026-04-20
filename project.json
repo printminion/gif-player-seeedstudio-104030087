@@ -49,6 +49,7 @@
       "buildFlag": "BOARD_SEEED_XIAO_ESP32C5",
       "partitionsFile": "partitions_esp32s3_8mb.csv",
       "requiresUv": true,
+      "extraScripts": ["pre:scripts/patch_tft_esp32c5.py"],
       "icon": "🟠",
       "meta": "ESP32-C5 · RISC-V · WiFi 6 Dual-Band · 8MB Flash",
       "sku": "113991325",
