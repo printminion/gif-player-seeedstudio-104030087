@@ -22,23 +22,6 @@
   ],
   "boards": [
     {
-      "id": "seeed_xiao_esp32c5",
-      "name": "Seeed XIAO ESP32-C5",
-      "chip": "esp32c5",
-      "chipFamily": "ESP32-C5",
-      "bootloaderOffset": "0x0",
-      "platform": "https://github.com/pioarduino/platform-espressif32/releases/download/55.03.38-1/platform-espressif32.zip",
-      "platformioBoard": "seeed_xiao_esp32c5",
-      "buildFlag": "BOARD_SEEED_XIAO_ESP32C5",
-      "partitionsFile": "partitions_esp32s3_8mb.csv",
-      "requiresUv": true,
-      "icon": "🟠",
-      "meta": "ESP32-C5 · RISC-V · WiFi 6 Dual-Band · 8MB Flash",
-      "sku": "113991325",
-      "url": "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C5-p-5890.html",
-      "image": "assets/boards/seeed_xiao_esp32c5.jpg"
-    },
-    {
       "id": "seeed_xiao_esp32s3",
       "name": "Seeed XIAO ESP32-S3",
       "chip": "esp32s3",
@@ -54,6 +37,23 @@
       "sku": "113991114",
       "url": "https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html",
       "image": "assets/boards/seeed_xiao_esp32s3.jpg"
+    },
+    {
+      "id": "seeed_xiao_esp32c5",
+      "name": "Seeed XIAO ESP32-C5",
+      "chip": "esp32c5",
+      "chipFamily": "ESP32-C5",
+      "bootloaderOffset": "0x0",
+      "platform": "https://github.com/pioarduino/platform-espressif32/releases/download/55.03.38-1/platform-espressif32.zip",
+      "platformioBoard": "seeed_xiao_esp32c5",
+      "buildFlag": "BOARD_SEEED_XIAO_ESP32C5",
+      "partitionsFile": "partitions_esp32s3_8mb.csv",
+      "requiresUv": true,
+      "icon": "🟠",
+      "meta": "ESP32-C5 · RISC-V · WiFi 6 Dual-Band · 8MB Flash",
+      "sku": "113991325",
+      "url": "https://www.seeedstudio.com/Seeed-Studio-XIAO-ESP32C5-p-5890.html",
+      "image": "assets/boards/seeed_xiao_esp32c5.jpg"
     }
   ],
   "firmwareVariants": [
