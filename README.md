@@ -19,14 +19,14 @@ Print your own enclosure for the Seeed Studio Round Display and XIAO ESP32 board
 - 🖨️ [Collection of cases for Seeed Studio Round Display on Cults3D](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
 - 🖨️ [All printminion designs on Cults3D](https://cults3d.com/@printminion)
 
-[![Case variant 1](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/01_104030087_drxO1-bump_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
-[![Case variant 2](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/02-104030087_drxO1-short_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
-[![Case variant 3](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/03-104030087_drxO1-straight_long_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
-[![Case variant 4](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/04-104030087_drxO1-scary_finger_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Case variant 1](assets/01_104030087_drxO1-bump_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Case variant 2](assets/02-104030087_drxO1-short_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Case variant 3](assets/03-104030087_drxO1-straight_long_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Case variant 4](assets/04-104030087_drxO1-scary_finger_legs-v32.png)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
 
-[![Photo 1](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/PXL_20230611_171226277.jpg)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
-[![Photo 2](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/PXL_20230611_171325293.jpg)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
-[![Photo 3](https://raw.githubusercontent.com/printminion/seeedstudio-xiao-TFT_eSPI_GifPlayer_With_Touch/main/assets/PXL_20230611_171341001.jpg)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Photo 1](assets/PXL_20230611_171226277.jpg)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Photo 2](assets/PXL_20230611_171325293.jpg)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
+[![Photo 3](assets/PXL_20230611_171341001.jpg)](https://cults3d.com/en/design-collections/printminion/seeed-studio-round-display-for-xiao-1-28-inch-round-touch-screen-240x240)
 
 ### Parts list
 
