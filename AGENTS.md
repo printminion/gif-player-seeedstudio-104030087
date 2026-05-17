@@ -73,6 +73,13 @@ It emits four `window.*` globals consumed by `docs/index.html`:
 
 Board `image` fields accept a relative path from `docs/` (e.g. `assets/boards/my-board.png`) or an absolute `https://` URL. Locally cached thumbnails live in `docs/assets/boards/`. Component images go in `docs/assets/components/`.
 
+**Asset image requirements** — images are rendered as 52×52 px thumbnails (`object-fit: cover`):
+
+- Format: JPEG
+- Recommended size: ~120×120 px (2× for HiDPI); keep file size <10 KB
+- **The generator validates that every relative image path exists on disk before writing output.** If an image is missing it exits 1 with a clear error. This check also runs as the `validate-assets` job in the PR workflow.
+- Workflow when adding a new board/component with an image: add the image file to `docs/assets/boards/` or `docs/assets/components/` first, then run `python scripts/generate_boards_config.py`.
+
 ### Logging system
 `include/logger.h` provides `LOG()`, `LOGF()`, `LOG_RAW()` macros. When `DEBUG_BUILD` is not defined they compile to nothing; when `DEBUG_BUILD` is defined they emit via Serial. Never use `Serial.print` directly.
 
