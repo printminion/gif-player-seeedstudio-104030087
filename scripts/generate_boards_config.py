@@ -27,8 +27,29 @@ def js_optional(s) -> str:
     return json.dumps(s if s else None, ensure_ascii=False)
 
 
+def validate_assets(config: dict, docs_dir: pathlib.Path) -> None:
+    """Exit 1 if any relative image path in boards/components does not exist."""
+    missing = []
+    for board in config.get("boards", []):
+        img = board.get("image", "")
+        if img and not img.startswith(("http://", "https://")):
+            if not (docs_dir / img).exists():
+                missing.append((img, f'board "{board["id"]}" ({board["name"]})'))
+    for comp in config.get("components", []):
+        img = comp.get("image", "")
+        if img and not img.startswith(("http://", "https://")):
+            if not (docs_dir / img).exists():
+                missing.append((img, f'component "{comp["name"]}"'))
+    if missing:
+        for path, ref in missing:
+            print(f"ERROR: missing asset: docs/{path}")
+            print(f"       referenced by {ref}")
+        raise SystemExit(1)
+
+
 def main() -> None:
     config = json.loads(PROJECT_JSON.read_text(encoding="utf-8"))
+    validate_assets(config, ROOT / "docs")
     boards = config["boards"]
 
     lines = [
