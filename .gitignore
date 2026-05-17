@@ -29,3 +29,4 @@ __pycache__/
 
 # Node (if web installer tooling is added)
 node_modules/
+.claude/settings.local.json

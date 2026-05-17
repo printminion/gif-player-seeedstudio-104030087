@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/generate_boards_config.py)",
+      "Bash(magick identify *)",
+      "Bash(awk '{print $1, $3}')"
+    ]
+    }
+}
