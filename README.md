@@ -1,7 +1,7 @@
 # GIF Player for Round Display for Seeed Studio XIAO 104030087 by @printminion
 
 Animated GIF player for the [Seeed Studio XIAO ESP32-S3](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html?sensecap_affiliate=unUJe6L&referring_service=link)
-with [1.28" Round Display (SKU 104030087)](https://www.seeedstudio.com/Seeed-Studio-Round-Display-for-XIAO-p-5638.html).
+with [1.28" Round Display (SKU 104030087)](https://www.seeedstudio.com/Seeed-Studio-Round-Display-for-XIAO-p-5638.html?sensecap_affiliate=unUJe6L&referring_service=link).
 Copy GIF files to the SD card and they play automatically. Touch the screen to navigate.
 
 ## Flash via Web Installer
